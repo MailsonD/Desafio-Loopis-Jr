@@ -79,17 +79,31 @@
                         </li>
                     </ul>
                     <div class="home-content__buttons">
-                        <a href="" class="smoothscroll btn btn--stroke">
+                        <button class="smoothscroll btn btn--stroke" onclick="ativaModal()">
                             Cad. Personagem
-                        </a>
+                        </button>
+                    </div>
+                    <div class="modal" id="myModal">
+                        <div class="modal-content">
+                            <span id="closeModal" class="close" onclick="fechaModal()">&times;</span>
+                            <center><h4>Cadastro de Personagem</h4></center><br>
+                            Foto <input class="btn-file" type="file" name="arquivos" accept="image/png, image/jpeg" onchange="showImage(this)" /> 
+                            <span id="myImage"><img id='img-upload' style="width: 100px; height: 100px;" /></span><br>
+                            Nome <input type="text" id="myPerson">
+                            Descrição <input type="text" id="persDescription">
+                            <br>
+                            <center>
+                            <button onclick="adicionarPersonagem()">Concluir</button>
+                            <button onclick="fechaModal()">Cancelar</button>
+                            </center>                      
+                        </div>
                     </div>  
                 </article>
             </div>
-    
         </div> <!-- end page-header -->
 
 
-        <div class="my-caracters">
+        <div id="my-pers" class="my-caracters">
             <center>Não temos personagens cadastrados</center>
         </div>
     </article>
@@ -159,7 +173,7 @@
         <script src="js/jquery-3.2.1.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
-
+        <script src="js/caracters.js"></script>
 </body>
 
 </html>
