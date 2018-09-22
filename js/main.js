@@ -5,19 +5,8 @@
 
 //-----------REGULAR EXPRESSION----------
 var reEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`~-]+@[a-z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-console.log(localStorage);
 var cadastrados;
 
-// var pessoa = new Object();
-// pessoa.nome="mailson";
-// pessoa.sobrenome="Dennis";
-// pessoa.idade=12;
-// pessoa.sexo="masculino";
-// var jsonAux= JSON.stringify(pessoa);
-// localStorage.setItem("pessoa",jsonAux);
-// var jsonPessoa = window.localStorage.getItem("pessoa");
-// var pessoa1 = JSON.parse(jsonPessoa);
-// console.log(pessoa1);
 /***********************************/
 //           My Obejcts
 /***********************************/
@@ -59,14 +48,17 @@ $(function(){
 });
 
 function cadastrar(){
+    //Pega os dados de cada campo do formulário
     var nome = $("#myUser").val();
     var email = $("#myEmail").val();
     var senha = $("#myPassword").val();
     var confirma = $("#myPasswordConfirm").val();
+    //verifica se tem algum campo vazio
     if(nome==""||email==""||senha==""||confirma==""){
         alert("ERROR:Preencha todos os campos!");
     }
     else{
+        //verifica se o email bate com a expressão regular 'exemplo@exemplo.com'
         if(!reEmail.test(email)){
             alert("O email não atende aos requisitos\n Tente algo como nome@exemplo.com");
         }
@@ -74,14 +66,18 @@ function cadastrar(){
             alert("ERROR:Senhas diferentes!");
         }
         else{
-            if(!emailExists(email)){
+            //Verifica se já existe algum usuário cadastrado com esse email
+            if(emailExists(email)){
                 alert("O email já existe!");
             }else{
+                //Se nenhum erro ocorreu, crio um usuário novo
                 var user = new Usuario(nome,email,senha);
+                //O converto com JSON
                 var toJson = JSON.stringify(user);
+                //E o adiciono ao array de usuários;
                 cadastrados.push(toJson);
                 localStorage.setItem("cadastrados",JSON.stringify(cadastrados));
-                alert("Usuaário cadastrado com sucesso!");
+                alert("Usuário cadastrado com sucesso!");
                 fechaModal();
                 return true;
             }
@@ -94,11 +90,15 @@ function cadastrar(){
 function logar(){
     var email = $("#ID-Login").val();
     var senha = $("#ID-Senha").val();
-    if(email==0&&senha==0){
+    //Foi criado um usuário master, com email 1 e senha 1
+    //Somente para intuito de testes
+    if(email==1&&senha==1){
+        console.log("entrou");
         localStorage.setItem("user","Master");
         window.location.href = "Caracters.html";
         return true;
     }
+    //autentica o login e redireciona a pagina
     for(var i in cadastrados){
         var user = JSON.parse(cadastrados[i]);
         if(user.email==email&&user.senha==senha){

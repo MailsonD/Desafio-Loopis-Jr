@@ -1,5 +1,10 @@
 var personagens;
-var numPersonagens=0;
+
+
+/***********************************/
+//             ONLOAD
+/***********************************/
+
 
 $(function(){
     personagens = localStorage.getItem("personagens");// Recupera os dados armazenados
@@ -12,12 +17,37 @@ $(function(){
     
 });
 
+/************************************/
+
+
+/***********************************/
+//           My Objects
+/***********************************/
+
+
+function Personagem(imagem,nome,descricao){
+	this.imagem=imagem;
+	this.nome=nome;
+	this.descricao=descricao;
+}
+
+/***********************************/
+
+
+
+/***********************************/
+//           My Functions
+/***********************************/
+
 function carregarPersonagens(){
 	var meusPersonagens = document.getElementById("my-pers");
+	//Inicializa o corpo da página com uma tabela
+	//Que será preenchida com os personagens
     	meusPersonagens.innerHTML = "<table id='caractersTable'></table>";
     	var table = document.getElementById("caractersTable");
-
-		// var box="";	
+		//Percorro o array com todos os personagens cadastrados
+		//E para cada personagem eu crio uma tag tr com todos os seus atributos
+		//Foi utilizada esta solução por conta do armazenamento da imagem em base64
 		for(var i in personagens){
 			var personagem = personagens[i];
 			var tr = document.createElement('tr');
@@ -46,18 +76,13 @@ function carregarPersonagens(){
 
     		td2.appendChild(center2);
     		tr.appendChild(td1);
-    		// tr.appendChild(td2);
     		tr.appendChild(td2);
     		table.appendChild(tr);
     	}
 	}
 
-function Personagem(imagem,nome,descricao){
-	this.imagem=imagem;
-	this.nome=nome;
-	this.descricao=descricao;
-}
-
+//Esta função serve para iniciar a imagem 
+//Selecionada pelo usuário dentro da modal
 function showImage(input){
 	if(input.files && input.files[0]){
 		var reader = new FileReader();
@@ -70,15 +95,21 @@ function showImage(input){
 }
 
 function adicionarPersonagem(){
-
+	//São pegos todos os atributos do personagem
 	var nome = $("#myPerson").val();
 	var descricao = $("#persDescription").val();
 	var imagem = document.getElementById("img-upload");
+	//Testa se foi ou não escolhida uma imagem
 	if(imagem.src==""){
 		alert("Erro, foto não selecionada!");
-	}else if(descricao==""||nome==""){
+	}else if(descricao==""||nome==""){ //Testa se todos os campos foram preenchidos
 		alert("Preencha todos os campos!");
 	}else{
+		/*Para o salvamento da imagem dentro do local storage
+		foi feito uma cópia da imagem para dentro de um atributo canvas.
+		Este atributo posteriormete foi convertido para base64
+		para que seja possivel colocá-lo dentro do local storage
+		*/
 		var imgCanvas = document.createElement("canvas");
     	var imageContext = imgCanvas.getContext("2d");
    		imgCanvas.width = 200;
