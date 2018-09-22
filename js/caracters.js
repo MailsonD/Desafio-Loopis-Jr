@@ -7,8 +7,13 @@ $(function(){
     if(personagens == null) // Caso não haja conteúdo, iniciamos um vetor vazio
     	personagens = [];
     else{
-    	var meusPersonagens = document.getElementById("my-pers");
-    	console.log("entrou");
+    	carregarPersonagens();
+    }
+    
+});
+
+function carregarPersonagens(){
+	var meusPersonagens = document.getElementById("my-pers");
     	meusPersonagens.innerHTML = "<table id='caractersTable'></table>";
     	var table = document.getElementById("caractersTable");
 
@@ -44,23 +49,8 @@ $(function(){
     		// tr.appendChild(td2);
     		tr.appendChild(td2);
     		table.appendChild(tr);
-    	}	
-		// 	numPersonagens++;
-		// 	console.log(numPersonagens);
-		// 	var meuId="img"+numPersonagens;
-		// 	box+="<td>"+
-		// 			"<center>"+
-		// 			"<image src="+personagem.imagem+"/>"+
-		// 			"<span>"+personagem.nome+" "+"</span>"+
-		// 			"<span>"+personagem.descricao+"</span>"+
-		// 		 	"</center>"+
-		// 		 "</td>"+
-		// 		 "</tr>"+
-		// 		"</table>";
-		// }
-    }
-});
-
+    	}
+	}
 
 function Personagem(imagem,nome,descricao){
 	this.imagem=imagem;
@@ -100,12 +90,7 @@ function adicionarPersonagem(){
 	    personagens.push(personagem);
 	    localStorage.setItem("personagens",JSON.stringify(personagens));
 	    alert("Salvo com sucesso!");
+	    fechaModal();
+	    carregarPersonagens();
 	}
-    
-    // imgSrc = JSON.parse(localStorage.getItem("imagem"));
-
-    // var personagens = document.getElementById("aqui");
-    // console.log(personagens);
-    // personagens.innerHTML= "<image id='minhaImagem'/>";
-    // minhaImagem.setAttribute('src',imgSrc);
 }

@@ -4185,6 +4185,10 @@ article.blog-single .blog-content {
     border-radius: 10px;
 }
 
+.description {
+    color: #FFFFFF;
+}
+
 /* The Close Button */
 .close {
     color: #aaa;

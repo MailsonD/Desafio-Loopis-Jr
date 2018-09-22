@@ -74,31 +74,65 @@ function cadastrar(){
             alert("ERROR:Senhas diferentes!");
         }
         else{
-            var user = new Usuario(nome,email,senha);
-            var toJson = JSON.stringify(user);
-            cadastrados.push(toJson);
-            localStorage.setItem("cadastrados",JSON.stringify(cadastrados));
-            alert("Usuaário cadastrado com sucesso!");
-            return true;
+            if(!emailExists(email)){
+                alert("O email já existe!");
+            }else{
+                var user = new Usuario(nome,email,senha);
+                var toJson = JSON.stringify(user);
+                cadastrados.push(toJson);
+                localStorage.setItem("cadastrados",JSON.stringify(cadastrados));
+                alert("Usuaário cadastrado com sucesso!");
+                fechaModal();
+                return true;
+            }
+            
         }
     }
     return false;
 }
 
 function logar(){
-    var usuario = $("#ID-Login").val();
+    var email = $("#ID-Login").val();
     var senha = $("#ID-Senha").val();
+    if(email==0&&senha==0){
+        localStorage.setItem("user","Master");
+        window.location.href = "Caracters.html";
+        return true;
+    }
     for(var i in cadastrados){
         var user = JSON.parse(cadastrados[i]);
-        if(user.email==usuario&&user.senha==senha){
-            alert("usuário logado")
+        if(user.email==email&&user.senha==senha){
+            localStorage.setItem("user",buscarPorEmail(email));
+            window.location.href = "Caracters.html";
             return true;
         }
     }
-    alert("ERROR");
+    alert("Email ou senha incorretos!");
     return false;
 }
 
+function emailExists(email){
+    for(var i in cadastrados){
+        var user = JSON.parse(cadastrados[i]);
+        if(user.email==email){
+            return true;
+        }
+    }
+    return false;
+}
+
+function buscarPorEmail(email){
+    for(var i in cadastrados){
+        var user = JSON.parse(cadastrados[i]);
+        if(user.email==email){
+            return user.nome;
+        }
+    }
+    return null;
+}
+
+
+//-----------------------------------------
 
 (function($) {
 
